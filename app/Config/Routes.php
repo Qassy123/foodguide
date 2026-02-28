@@ -7,10 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // Home page
-$routes->get('/', 'Home::index');
+$routes->get('/', 'Takeaways::index');
 
-// Foods list page
-$routes->get('foods', 'Foods::index');
+// Takeaways list
+$routes->get('takeaways', 'Takeaways::index');
 
-// Individual food page
-$routes->get('foods/(:segment)', 'Foods::show/$1');
+// Single takeaway
+$routes->get('takeaways/(:num)', 'Takeaways::show/$1');
