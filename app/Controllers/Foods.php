@@ -15,4 +15,14 @@ class Foods extends BaseController
         // Load the foods view and pass data
         return view('foods/index', $data);
     }
+
+    // Displays a single food item
+    public function show($name)
+    {
+        // Format the food name
+        $data['food'] = ucfirst($name);
+
+        // Load the single food view
+        return view('foods/show', $data);
+    }
 }
