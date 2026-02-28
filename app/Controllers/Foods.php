@@ -3,26 +3,30 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\FoodModel;
 
 class Foods extends BaseController
 {
     // Displays list of foods
     public function index()
     {
-        // Store food items in an array
-        $data['foods'] = ['Burger', 'Pizza', 'Curry'];
+        // Create model instance
+        $model = new FoodModel();
 
-        // Load the foods view and pass data
+        // Get food data from model
+        $data['foods'] = $model->getFoods();
+
+        // Load the foods view
         return view('foods/index', $data);
     }
 
     // Displays a single food item
     public function show($name)
     {
-        // Format the food name
+        // Format food name
         $data['food'] = ucfirst($name);
 
-        // Load the single food view
+        // Load single food view
         return view('foods/show', $data);
     }
 }
