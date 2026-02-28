@@ -10,23 +10,18 @@ class Foods extends BaseController
     // Displays list of foods
     public function index()
     {
-        // Create model instance
         $model = new FoodModel();
-
-        // Get food data from model
         $data['foods'] = $model->getFoods();
 
-        // Load the foods view
         return view('foods/index', $data);
     }
 
-    // Displays a single food item
+    // Displays single food item
     public function show($name)
     {
-        // Format food name
-        $data['food'] = ucfirst($name);
+        $model = new FoodModel();
+        $data['food'] = $model->getFoodByName($name);
 
-        // Load single food view
         return view('foods/show', $data);
     }
 }

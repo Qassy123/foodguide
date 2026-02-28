@@ -9,7 +9,11 @@
 
 <ul>
     <?php foreach ($foods as $food): ?>
-        <li><?= esc($food) ?></li>
+        <li>
+            <a href="/foods/<?= esc($food['name']) ?>">
+                <?= esc($food['name']) ?>
+            </a>
+        </li>
     <?php endforeach; ?>
 </ul>
 

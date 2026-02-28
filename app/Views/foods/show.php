@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= esc($food) ?></title>
+    <title><?= esc($food['name']) ?></title>
 </head>
 <body>
 
-<h1><?= esc($food) ?></h1>
+<h1><?= esc($food['name']) ?></h1>
 
-<p>This is the <?= esc($food) ?> page.</p>
+<p><?= esc($food['description']) ?></p>
 
 <a href="/foods">Back to list</a>
 
