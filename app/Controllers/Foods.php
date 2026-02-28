@@ -2,17 +2,17 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController;
+
 class Foods extends BaseController
 {
+    // Displays list of foods
     public function index()
     {
-        // Data for the page (hardcoded for now)
-        $data = [
-            'title' => 'Food Guide',
-            'foods' => ['Burger', 'Pizza', 'Curry']
-        ];
+        // Store food items in an array
+        $data['foods'] = ['Burger', 'Pizza', 'Curry'];
 
-        // Load a view and pass it $data
-        return view('foods_list', $data);
+        // Load the foods view and pass data
+        return view('foods/index', $data);
     }
 }
