@@ -12,5 +12,11 @@ $routes->get('/', 'Takeaways::index');
 // Takeaways list
 $routes->get('takeaways', 'Takeaways::index');
 
+// Create takeaway form
+$routes->get('takeaways/create', 'Takeaways::create');
+
+// Store takeaway (POST)
+$routes->post('takeaways/store', 'Takeaways::store');
+
 // Single takeaway
 $routes->get('takeaways/(:num)', 'Takeaways::show/$1');
