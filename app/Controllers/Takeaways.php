@@ -7,21 +7,16 @@ use App\Models\TakeawayModel;
 
 class Takeaways extends BaseController
 {
-    // Displays list of takeaways
+    // Displays all takeaways from database
     public function index()
     {
+        // Create model instance
         $model = new TakeawayModel();
+
+        // Retrieve all records
         $data['takeaways'] = $model->findAll();
 
+        // Load view and pass data
         return view('takeaways/index', $data);
-    }
-
-    // Displays single takeaway
-    public function show($id)
-    {
-        $model = new TakeawayModel();
-        $data['takeaway'] = $model->find($id);
-
-        return view('takeaways/show', $data);
     }
 }
