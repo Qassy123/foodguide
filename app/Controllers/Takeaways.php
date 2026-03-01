@@ -35,12 +35,27 @@ class Takeaways extends BaseController
         return view('takeaways/create');
     }
 
-    // Stores new takeaway
+    // Stores new takeaway with validation
     public function store()
     {
         $model = new TakeawayModel();
 
-        // Insert takeaway into database
+        // Define validation rules
+        $rules = [
+            'name' => 'required|min_length[3]',
+            'cuisine_type' => 'required',
+            'address' => 'required',
+            'price_range' => 'required',
+            'rating' => 'required|decimal|greater_than_equal_to[0]|less_than_equal_to[5]',
+            'description' => 'required|min_length[5]'
+        ];
+
+        // Run validation
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Save validated data
         $model->save([
             'name' => $this->request->getPost('name'),
             'cuisine_type' => $this->request->getPost('cuisine_type'),
@@ -57,8 +72,6 @@ class Takeaways extends BaseController
     public function delete($id)
     {
         $model = new TakeawayModel();
-
-        // Remove record by ID
         $model->delete($id);
 
         return redirect()->to('/takeaways');
