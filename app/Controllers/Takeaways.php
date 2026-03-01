@@ -10,13 +10,25 @@ class Takeaways extends BaseController
     // Displays all takeaways from database
     public function index()
     {
-        // Create model instance
         $model = new TakeawayModel();
-
-        // Retrieve all records
         $data['takeaways'] = $model->findAll();
 
-        // Load view and pass data
         return view('takeaways/index', $data);
+    }
+
+    // Displays a single takeaway by ID
+    public function show($id)
+    {
+        $model = new TakeawayModel();
+
+        // Retrieve one takeaway
+        $data['takeaway'] = $model->find($id);
+
+        // Show 404 if not found
+        if (!$data['takeaway']) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Takeaway not found');
+        }
+
+        return view('takeaways/show', $data);
     }
 }
