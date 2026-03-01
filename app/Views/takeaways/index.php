@@ -17,12 +17,17 @@
 
 <div class="container mt-4">
 
-    <div class="d-flex justify-content-between mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Takeaway List</h2>
         <a href="/takeaways/create" class="btn btn-primary">Add Takeaway</a>
     </div>
 
-    <div class="row">
+    <!-- Live Search Input -->
+    <div class="mb-4">
+        <input type="text" id="search" class="form-control" placeholder="Search by name or cuisine...">
+    </div>
+
+    <div class="row" id="takeawayContainer">
         <?php foreach ($takeaways as $takeaway): ?>
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card h-100">
@@ -53,6 +58,44 @@
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Fetch Live Search -->
+<script>
+document.getElementById('search').addEventListener('keyup', function () {
+
+    const query = this.value;
+
+    fetch('/takeaways/search?q=' + query)
+        .then(response => response.json())
+        .then(data => {
+
+            const container = document.getElementById('takeawayContainer');
+            container.innerHTML = '';
+
+            data.forEach(function (takeaway) {
+
+                container.innerHTML += `
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">${takeaway.name}</h5>
+                                <p>
+                                    <strong>Cuisine:</strong> ${takeaway.cuisine_type}<br>
+                                    <strong>Address:</strong> ${takeaway.address}<br>
+                                    <strong>Price:</strong> ${takeaway.price_range}<br>
+                                    <strong>Rating:</strong> ${takeaway.rating}
+                                </p>
+                                <a href="/takeaways/${takeaway.id}" class="btn btn-sm btn-outline-primary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+        });
+
+});
+</script>
 
 </body>
 </html>

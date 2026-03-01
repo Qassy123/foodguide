@@ -63,4 +63,18 @@ class Takeaways extends BaseController
 
         return redirect()->to('/takeaways');
     }
+
+    // Returns filtered takeaways for live search
+    public function search()
+    {
+        $model = new TakeawayModel();
+        $query = $this->request->getGet('q');
+
+        $results = $model
+            ->like('name', $query)
+            ->orLike('cuisine_type', $query)
+            ->findAll();
+
+        return $this->response->setJSON($results);
+    }
 }

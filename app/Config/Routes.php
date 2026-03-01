@@ -21,5 +21,8 @@ $routes->post('takeaways/store', 'Takeaways::store');
 // Delete takeaway (POST)
 $routes->post('takeaways/delete/(:num)', 'Takeaways::delete/$1');
 
+// Live search (AJAX)
+$routes->get('takeaways/search', 'Takeaways::search');
+
 // Single takeaway
 $routes->get('takeaways/(:num)', 'Takeaways::show/$1');
