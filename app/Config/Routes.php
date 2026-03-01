@@ -18,5 +18,8 @@ $routes->get('takeaways/create', 'Takeaways::create');
 // Store takeaway (POST)
 $routes->post('takeaways/store', 'Takeaways::store');
 
+// Delete takeaway
+$routes->get('takeaways/delete/(:num)', 'Takeaways::delete/$1');
+
 // Single takeaway
 $routes->get('takeaways/(:num)', 'Takeaways::show/$1');

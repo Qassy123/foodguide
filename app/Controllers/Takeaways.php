@@ -52,4 +52,15 @@ class Takeaways extends BaseController
 
         return redirect()->to('/takeaways');
     }
+
+    // Deletes a takeaway
+    public function delete($id)
+    {
+        $model = new TakeawayModel();
+
+        // Remove record by ID
+        $model->delete($id);
+
+        return redirect()->to('/takeaways');
+    }
 }
