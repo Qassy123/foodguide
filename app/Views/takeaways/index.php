@@ -42,11 +42,11 @@
 
                         <a href="/takeaways/<?= $takeaway['id'] ?>" class="btn btn-sm btn-outline-primary">View</a>
 
-                        <!-- Delete form with CSRF -->
                         <form method="post" action="/takeaways/delete/<?= $takeaway['id'] ?>" class="d-inline">
                             <?= csrf_field() ?>
-                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Are you sure you want to delete this takeaway?');">
+                            <button type="submit"
+                                    class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Are you sure you want to delete this takeaway?');">
                                 Delete
                             </button>
                         </form>
@@ -67,52 +67,60 @@
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Fetch Live Search -->
+<!-- Fetch Live Search with Debounce -->
 <script>
+let timeout = null;
+
 document.getElementById('search').addEventListener('keyup', function () {
 
-    const query = this.value.trim();
+    clearTimeout(timeout);
 
-    fetch('/takeaways/search?q=' + encodeURIComponent(query))
-        .then(response => response.json())
-        .then(data => {
+    timeout = setTimeout(() => {
 
-            const container = document.getElementById('takeawayContainer');
-            const noResults = document.getElementById('noResults');
+        const query = this.value.trim();
 
-            container.innerHTML = '';
+        fetch('/takeaways/search?q=' + encodeURIComponent(query))
+            .then(response => response.json())
+            .then(data => {
 
-            if (data.length === 0) {
-                noResults.style.display = 'block';
-                return;
-            }
+                const container = document.getElementById('takeawayContainer');
+                const noResults = document.getElementById('noResults');
 
-            noResults.style.display = 'none';
+                container.innerHTML = '';
 
-            data.forEach(function (takeaway) {
+                if (data.length === 0) {
+                    noResults.style.display = 'block';
+                    return;
+                }
 
-                container.innerHTML += `
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">${takeaway.name}</h5>
-                                <p>
-                                    <strong>Cuisine:</strong> ${takeaway.cuisine_type}<br>
-                                    <strong>Address:</strong> ${takeaway.address}<br>
-                                    <strong>Price:</strong> ${takeaway.price_range}<br>
-                                    <strong>Rating:</strong> ${takeaway.rating}
-                                </p>
-                                <a href="/takeaways/${takeaway.id}" class="btn btn-sm btn-outline-primary">View</a>
+                noResults.style.display = 'none';
+
+                data.forEach(function (takeaway) {
+
+                    container.innerHTML += `
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">${takeaway.name}</h5>
+                                    <p>
+                                        <strong>Cuisine:</strong> ${takeaway.cuisine_type}<br>
+                                        <strong>Address:</strong> ${takeaway.address}<br>
+                                        <strong>Price:</strong> ${takeaway.price_range}<br>
+                                        <strong>Rating:</strong> ${takeaway.rating}
+                                    </p>
+                                    <a href="/takeaways/${takeaway.id}" class="btn btn-sm btn-outline-primary">View</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                });
+
+            })
+            .catch(() => {
+                console.error('Search error');
             });
 
-        })
-        .catch(error => {
-            console.error('Search error:', error);
-        });
+    }, 300);
 
 });
 </script>
