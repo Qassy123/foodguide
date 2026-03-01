@@ -29,7 +29,7 @@
 
     <div class="row" id="takeawayContainer">
         <?php foreach ($takeaways as $takeaway): ?>
-            <div class="col-md-6 col-lg-4 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4 takeaway-card">
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title"><?= esc($takeaway['name']) ?></h5>
@@ -39,9 +39,12 @@
                             <strong>Price:</strong> <?= esc($takeaway['price_range']) ?><br>
                             <strong>Rating:</strong> <?= esc($takeaway['rating']) ?>
                         </p>
+
                         <a href="/takeaways/<?= $takeaway['id'] ?>" class="btn btn-sm btn-outline-primary">View</a>
 
+                        <!-- Delete form with CSRF -->
                         <form method="post" action="/takeaways/delete/<?= $takeaway['id'] ?>" class="d-inline">
+                            <?= csrf_field() ?>
                             <button type="submit" class="btn btn-sm btn-outline-danger"
                                 onclick="return confirm('Are you sure you want to delete this takeaway?');">
                                 Delete
@@ -54,6 +57,11 @@
         <?php endforeach; ?>
     </div>
 
+    <!-- No results message -->
+    <div id="noResults" class="text-center mt-4 text-muted" style="display:none;">
+        No takeaways found.
+    </div>
+
 </div>
 
 <!-- Bootstrap JS -->
@@ -63,14 +71,23 @@
 <script>
 document.getElementById('search').addEventListener('keyup', function () {
 
-    const query = this.value;
+    const query = this.value.trim();
 
-    fetch('/takeaways/search?q=' + query)
+    fetch('/takeaways/search?q=' + encodeURIComponent(query))
         .then(response => response.json())
         .then(data => {
 
             const container = document.getElementById('takeawayContainer');
+            const noResults = document.getElementById('noResults');
+
             container.innerHTML = '';
+
+            if (data.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
 
             data.forEach(function (takeaway) {
 
@@ -92,6 +109,9 @@ document.getElementById('search').addEventListener('keyup', function () {
                 `;
             });
 
+        })
+        .catch(error => {
+            console.error('Search error:', error);
         });
 
 });
