@@ -26,6 +26,9 @@ class Takeaways extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Takeaway not found');
         }
 
+        // Pass weather API key to view
+        $data['weatherApiKey'] = getenv('OPENWEATHER_API_KEY');
+
         return view('takeaways/show', $data);
     }
 
