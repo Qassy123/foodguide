@@ -2,36 +2,68 @@
 <html>
 <head>
     <title>Add Takeaway</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<h1>Add New Takeaway</h1>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+        <a href="/takeaways" class="navbar-brand">Wolverhampton Takeaways</a>
+    </div>
+</nav>
 
-<form method="post" action="/takeaways/store">
+<div class="container mt-4">
 
-    <label>Name</label><br>
-    <input type="text" name="name" required><br><br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="mb-4">Add New Takeaway</h2>
 
-    <label>Cuisine Type</label><br>
-    <input type="text" name="cuisine_type" required><br><br>
+            <form method="post" action="/takeaways/store">
 
-    <label>Address</label><br>
-    <input type="text" name="address" required><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control" required>
+                </div>
 
-    <label>Price Range</label><br>
-    <input type="text" name="price_range" required><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Cuisine Type</label>
+                    <input type="text" name="cuisine_type" class="form-control" required>
+                </div>
 
-    <label>Rating</label><br>
-    <input type="number" step="0.1" name="rating" required><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Address</label>
+                    <input type="text" name="address" class="form-control" required>
+                </div>
 
-    <label>Description</label><br>
-    <textarea name="description" required></textarea><br><br>
+                <div class="mb-3">
+                    <label class="form-label">Price Range</label>
+                    <input type="text" name="price_range" class="form-control" required>
+                </div>
 
-    <button type="submit">Add Takeaway</button>
+                <div class="mb-3">
+                    <label class="form-label">Rating</label>
+                    <input type="number" step="0.1" name="rating" class="form-control" required>
+                </div>
 
-</form>
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control" required></textarea>
+                </div>
 
-<a href="/takeaways">Back</a>
+                <button type="submit" class="btn btn-primary">Add Takeaway</button>
+                <a href="/takeaways" class="btn btn-secondary">Cancel</a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
