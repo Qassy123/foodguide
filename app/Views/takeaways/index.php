@@ -22,7 +22,12 @@
 
             <a href="/takeaways/<?= $takeaway['id'] ?>">View Details</a>
             |
-            <a href="/takeaways/delete/<?= $takeaway['id'] ?>">Delete</a>
+
+            <form method="post" action="/takeaways/delete/<?= $takeaway['id'] ?>" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this takeaway?');">
+                    Delete
+                </button>
+            </form>
 
             <hr>
         </li>
