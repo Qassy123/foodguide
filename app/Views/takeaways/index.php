@@ -6,25 +6,92 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f4f7fb, #e8eef7);
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar {
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        h2 {
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.15);
+        }
+
+        .card-title {
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            border-radius: 25px;
+            padding: 6px 20px;
+            font-weight: 500;
+        }
+
+        .btn-outline-primary,
+        .btn-outline-danger {
+            border-radius: 20px;
+            padding: 4px 14px;
+        }
+
+        #search {
+            border-radius: 30px;
+            padding: 12px 20px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        #search:focus {
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+
+        #noResults {
+            font-style: italic;
+            font-size: 1.05rem;
+        }
+    </style>
 </head>
 <body>
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container">
-        <span class="navbar-brand mb-0 h1">Wolverhampton Takeaways</span>
+        <span class="navbar-brand mb-0 h1">🍔 Wolverhampton Takeaways</span>
     </div>
 </nav>
 
-<div class="container mt-4">
+<div class="container mt-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Takeaway List</h2>
-        <a href="/takeaways/create" class="btn btn-primary">Add Takeaway</a>
+        <a href="<?= site_url('takeaways/create') ?>" class="btn btn-primary shadow-sm">
+            + Add Takeaway
+        </a>
     </div>
 
     <!-- Live Search Input -->
-    <div class="mb-4">
-        <input type="text" id="search" class="form-control" placeholder="Search by name or cuisine...">
+    <div class="mb-5">
+        <input type="text" id="search" class="form-control" placeholder="🔍 Search by name or cuisine...">
     </div>
 
     <div class="row" id="takeawayContainer">
@@ -33,16 +100,19 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title"><?= esc($takeaway['name']) ?></h5>
-                        <p class="card-text">
+                        <p class="card-text mb-3">
                             <strong>Cuisine:</strong> <?= esc($takeaway['cuisine_type']) ?><br>
                             <strong>Address:</strong> <?= esc($takeaway['address']) ?><br>
                             <strong>Price:</strong> <?= esc($takeaway['price_range']) ?><br>
                             <strong>Rating:</strong> <?= esc($takeaway['rating']) ?>
                         </p>
 
-                        <a href="/takeaways/<?= $takeaway['id'] ?>" class="btn btn-sm btn-outline-primary">View</a>
+                        <a href="<?= site_url('takeaways/' . $takeaway['id']) ?>"
+                           class="btn btn-sm btn-outline-primary me-2">View</a>
 
-                        <form method="post" action="/takeaways/delete/<?= $takeaway['id'] ?>" class="d-inline">
+                        <form method="post"
+                              action="<?= site_url('takeaways/delete/' . $takeaway['id']) ?>"
+                              class="d-inline">
                             <?= csrf_field() ?>
                             <button type="submit"
                                     class="btn btn-sm btn-outline-danger"
@@ -79,7 +149,7 @@ document.getElementById('search').addEventListener('keyup', function () {
 
         const query = this.value.trim();
 
-        fetch('/takeaways/search?q=' + encodeURIComponent(query))
+        fetch("<?= site_url('takeaways/search') ?>?q=" + encodeURIComponent(query))
             .then(response => response.json())
             .then(data => {
 
@@ -108,7 +178,8 @@ document.getElementById('search').addEventListener('keyup', function () {
                                         <strong>Price:</strong> ${takeaway.price_range}<br>
                                         <strong>Rating:</strong> ${takeaway.rating}
                                     </p>
-                                    <a href="/takeaways/${takeaway.id}" class="btn btn-sm btn-outline-primary">View</a>
+                                    <a href="<?= site_url('takeaways') ?>/${takeaway.id}"
+                                       class="btn btn-sm btn-outline-primary">View</a>
                                 </div>
                             </div>
                         </div>
